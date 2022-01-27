@@ -1,27 +1,20 @@
 #include <SFML/Graphics.hpp>
 #include <Platform/Platform.hpp>
-#include "Animation.h"
+#include "Player.h"
 #include <iostream>
 
 int main()
 {{
 	sf::RenderWindow window(sf::VideoMode(512, 512), "SFML works!", sf::Style::Close | sf::Style::Titlebar);
-	sf::RectangleShape player(sf::Vector2f(100.0f, 100.0f));
-	player.setPosition(206.0f, 206.0f);
+	sf::View view(sf::Vector2f(0.0f,0.0f), sf::Vector2f(512.f, 512.f));
+
 	sf::Texture playerTexture;
 	playerTexture.loadFromFile("texture.png");
-	player.setTexture(&playerTexture);
 
-	Animation animation(&playerTexture, sf::Vector2u(3,9), 0.3f);
+	Player player(&playerTexture, sf::Vector2u(3,9), 0.3f, 100.0f);
 
 	float deltaTime = 0.0f;
 	sf::Clock clock;
-
-	sf::Vector2u texturesize = playerTexture.getSize();
-	texturesize.x /= 9;
-	texturesize.y /= 9;
-
-	player.setTextureRect(sf::IntRect(texturesize.x * 2, texturesize.y * 2, texturesize.x , texturesize.y));
 
 	while (window.isOpen())
 	{
@@ -41,11 +34,10 @@ int main()
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
-		animation.Update(0, deltaTime);
-		player.setTextureRect(animation.uvRect);
+		player.Update(deltaTime);
 
 		window.clear();
-		window.draw(player);
+		player.Draw(window);
 		window.display();
 	}}
 
