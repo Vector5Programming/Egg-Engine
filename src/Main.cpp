@@ -1,41 +1,53 @@
-#include "Platform/Platform.hpp"
+#include <SFML/Graphics.hpp>
+#include <Platform/Platform.hpp>
+#include "Animation.h"
+#include <iostream>
 
 int main()
-{
-	util::Platform platform;
+{{
+	sf::RenderWindow window(sf::VideoMode(512, 512), "SFML works!", sf::Style::Close | sf::Style::Titlebar);
+	sf::RectangleShape player(sf::Vector2f(100.0f, 100.0f));
+	player.setPosition(206.0f, 206.0f);
+	sf::Texture playerTexture;
+	playerTexture.loadFromFile("texture.png");
+	player.setTexture(&playerTexture);
 
-#if defined(_DEBUG)
-	std::cout << "Hello World!" << std::endl;
-#endif
+	Animation animation(&playerTexture, sf::Vector2u(3,9), 0.3f);
 
-	sf::RenderWindow window;
-	// in Windows at least, this must be called before creating the window
-	float screenScalingFactor = platform.getScreenScalingFactor(window.getSystemHandle());
-	// Use the screenScalingFactor
-	window.create(sf::VideoMode(200.0f * screenScalingFactor, 200.0f * screenScalingFactor), "SFML works!");
-	platform.setIcon(window.getSystemHandle());
+	float deltaTime = 0.0f;
+	sf::Clock clock;
 
-	sf::CircleShape shape(window.getSize().x / 2);
-	shape.setFillColor(sf::Color::White);
+	sf::Vector2u texturesize = playerTexture.getSize();
+	texturesize.x /= 9;
+	texturesize.y /= 9;
 
-	sf::Texture shapeTexture;
-	shapeTexture.loadFromFile("content/sfml.png");
-	shape.setTexture(&shapeTexture);
-
-	sf::Event event;
+	player.setTextureRect(sf::IntRect(texturesize.x * 2, texturesize.y * 2, texturesize.x , texturesize.y));
 
 	while (window.isOpen())
 	{
+		deltaTime = clock.restart().asSeconds();
+
+		sf::Event event;
 		while (window.pollEvent(event))
 		{
+			switch (event.type) {
+			case sf::Event::Closed:
+				window.close();
+				break;
+
+			default:
+				break;
+			}
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
+		animation.Update(0, deltaTime);
+		player.setTextureRect(animation.uvRect);
 
 		window.clear();
-		window.draw(shape);
+		window.draw(player);
 		window.display();
-	}
+	}}
 
 	return 0;
 }
