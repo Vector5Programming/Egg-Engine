@@ -21,5 +21,4 @@ private:
 	float switchTime;
 };
 
-
 #endif /* A3DB497E_D227_4BD5_8CC0_58A14D9DB383 */

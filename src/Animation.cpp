@@ -1,6 +1,6 @@
 #include "Animation.h"
 
-Animation::Animation(sf::Texture * texture, sf::Vector2u imagecount, float switchTime)
+Animation::Animation(sf::Texture* texture, sf::Vector2u imagecount, float switchTime)
 {
 	this->imagecount = imagecount;
 	this->switchTime = switchTime;
@@ -13,7 +13,6 @@ Animation::Animation(sf::Texture * texture, sf::Vector2u imagecount, float switc
 
 Animation::~Animation()
 {
-
 }
 
 void Animation::Update(int row, float deltaTime, bool faceRight)
@@ -31,13 +30,14 @@ void Animation::Update(int row, float deltaTime, bool faceRight)
 		}
 	}
 
-
 	uvRect.top = currentImage.y * uvRect.height;
 	if (faceRight)
 	{
 		uvRect.left = currentImage.x * uvRect.width;
 		uvRect.width = abs(uvRect.width);
-	} else {
+	}
+	else
+	{
 		uvRect.left = (currentImage.x + 1) * abs(uvRect.width);
 		uvRect.width = -abs(uvRect.width);
 	}
