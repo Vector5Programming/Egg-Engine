@@ -5,7 +5,7 @@
 
 int main()
 {{
-	sf::RenderWindow window(sf::VideoMode(512, 512), "SFML works!", sf::Style::Close | sf::Style::Titlebar);
+	sf::RenderWindow window(sf::VideoMode(512, 512), "Egg Engine! v0.0.4a", sf::Style::Close | sf::Style::Titlebar);
 	sf::View view(sf::Vector2f(0.0f,0.0f), sf::Vector2f(512.f, 512.f));
 
 	sf::Texture playerTexture;
@@ -35,8 +35,10 @@ int main()
 				window.close();
 		}
 		player.Update(deltaTime);
+		view.setCenter(player.GetPosition);
 
 		window.clear();
+		window.setView(view);
 		player.Draw(window);
 		window.display();
 	}}
