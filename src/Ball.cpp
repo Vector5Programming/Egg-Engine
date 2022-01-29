@@ -19,6 +19,8 @@ void Ball::Update(float deltaTime)
 	sf::Vector2f movement(0.0f, 0.0f);
 	srand(time(0));
 
+
+
 	if (right)
 	{
 		movement.x += speed * deltaTime;

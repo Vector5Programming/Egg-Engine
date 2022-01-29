@@ -14,9 +14,10 @@ public:
 	~Ball();
 
 	void Update(float deltaTime);
-	void Draw(sf::RenderWindow& window);
 	bool right = false;
 	bool up = true;
+	void Draw(sf::RenderWindow& window);
+
 
 	sf::Vector2f GetPosition()
 	{
@@ -28,8 +29,9 @@ public:
 		return Collider(body);
 	}
 
-private:
 	sf::RectangleShape body;
+
+private:
 	unsigned int row;
 	float speed;
 	bool faceRight;

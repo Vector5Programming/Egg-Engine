@@ -4,7 +4,10 @@
 #include "Player2.h"
 #include <Platform/Platform.hpp>
 #include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
+#include <ctime>
 #include <iostream>
+#include <unistd.h>
 
 #include <string>
 using namespace std;
@@ -13,18 +16,21 @@ static const float VIEW_HEIGHT = 512.0f;
 bool restart;
 // void ResizeView(const sf::RenderWindow& window, sf::View& view);
 
-void fail();
-void fail() {
-	restart = true;
+inline void delay(unsigned long ms)
+{
+	usleep(ms * 1000);
 }
+
+int speed = 175;
 
 int main()
 {
 
 	{
-
 		while (!restart)
 		{
+
+			sleep(1);
 
 			int player1score = 0;
 			int player2score = 0;
@@ -33,10 +39,21 @@ int main()
 			sf::RenderWindow window(sf::VideoMode(VIEW_HEIGHT, VIEW_HEIGHT), "Egg Engine! v0.0.4a", sf::Style::Close | sf::Style::Titlebar);
 			sf::View view(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(VIEW_HEIGHT, VIEW_HEIGHT));
 
+			sf::Font font;
+			font.loadFromFile("FFFFORWA.TTF");
+
+			sf::Text text;
+			text.setFont(font);
+			text.setPosition(VIEW_HEIGHT / 2.35, VIEW_HEIGHT / 15);
+
+			sf::Text winner;
+			winner.setFont(font);
+			winner.setCharacterSize(30);
+			winner.setPosition(VIEW_HEIGHT / 5, VIEW_HEIGHT / 5);
+
 			Player player(250.0f);
 			Player2 player2(250.0f);
-
-			Ball ball(150 + 1);
+			Ball ball(speed);
 
 			Platform platform1(nullptr, sf::Vector2f(10.0f, VIEW_HEIGHT), sf::Vector2f(0.0f, VIEW_HEIGHT / 2.0f));
 			Platform platform2(nullptr, sf::Vector2f(10.0f, VIEW_HEIGHT), sf::Vector2f(VIEW_HEIGHT, VIEW_HEIGHT / 2.0f));
@@ -49,6 +66,7 @@ int main()
 			while (window.isOpen())
 
 			{
+				speed++;
 				deltaTime = clock.restart().asSeconds();
 
 				sf::Event event;
@@ -71,12 +89,31 @@ int main()
 
 					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 					{
-						// left key is pressed: move our character
 					}
 
 					if (event.type == sf::Event::Closed)
 						window.close();
 				}
+				if (player1score >= 5 || player2score >= 5)
+				{
+					string win = "nobody wins??";
+					if (player1score < player2score)
+					{
+						win = "Player 1 Wins!";
+					}
+					else if (player2score < player1score)
+					{
+
+						win = "Player 2 Wins!";
+					}
+
+					winner.setString(win);
+				}
+				std::wostringstream plr1;
+				plr1 << player2score << L" | " << player1score;
+				text.setString(plr1.str());
+				text.setOutlineColor(sf::Color::White);
+
 				player.Update(deltaTime);
 				player2.Update(deltaTime);
 				ball.Update(deltaTime);
@@ -92,13 +129,13 @@ int main()
 				if (platform2.GetCollider().CheckCollision(ball.GetCollider(), 1.0f))
 				{
 					player2score++;
-					fail();
+					ball.body.setPosition(VIEW_HEIGHT / 2, VIEW_HEIGHT / 2);
 				}
 
 				if (platform1.GetCollider().CheckCollision(ball.GetCollider(), 1.0f))
 				{
 					player1score++;
-					fail();
+					ball.body.setPosition(VIEW_HEIGHT / 2, VIEW_HEIGHT / 2);
 				}
 
 				if (player.GetCollider().CheckCollision(ball.GetCollider(), 1.0f))
@@ -109,6 +146,7 @@ int main()
 				// view.setCenter(player.GetPosition());
 
 				window.clear(sf::Color::Black);
+
 				player.Draw(window);
 				player2.Draw(window);
 				ball.Draw(window);
@@ -116,6 +154,9 @@ int main()
 				platform2.Draw(window);
 				platform3.Draw(window);
 				platform4.Draw(window);
+
+				window.draw(text);
+				window.draw(winner);
 				// ball.Draw(window);
 				window.display();
 			}
