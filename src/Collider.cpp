@@ -43,13 +43,13 @@ bool Collider::CheckCollision(Collider other, float push)
 		{
 			if (deltaY > 0.0f)
 			{
-				Move(intersectY * (1.0f - push), 0.0f);
-				other.Move(-intersectY * push, 0.0f);
+				Move(0.0f, intersectY * (1.0f - push));
+				other.Move(0.0f, -intersectY * push);
 			}
 			else
 			{
-				Move(-intersectY * (1.0f - push), 0.0f);
-				other.Move(intersectY * push, 0.0f);
+				Move(0.0f, -intersectY * (1.0f - push));
+				other.Move(0.0f, intersectY * push);
 			}
 		}
 

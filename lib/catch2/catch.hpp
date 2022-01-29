@@ -42,7 +42,7 @@
 #    pragma GCC diagnostic ignored "-Wparentheses" // See #674 for details
 
 #    pragma GCC diagnostic push
-#    pragma GCC diagnostic ignored "-Wunused-variable"
+#    pragma GCC diagnostic ignored "-Werror=unused-variable"
 #    pragma GCC diagnostic ignored "-Wpadded"
 #endif
 // end catch_suppress_warnings.h
@@ -154,6 +154,7 @@ namespace Catch {
 #       define CATCH_INTERNAL_SUPPRESS_UNUSED_WARNINGS \
             _Pragma( "clang diagnostic push" ) \
             _Pragma( "clang diagnostic ignored \"-Wunused-variable\"" )
+            _Pragma( "clang diagnostic ignored \"-Wunused-parameter\"" )
 #       define CATCH_INTERNAL_UNSUPPRESS_UNUSED_WARNINGS \
             _Pragma( "clang diagnostic pop" )
 
