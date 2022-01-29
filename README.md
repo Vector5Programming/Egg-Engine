@@ -11,4 +11,8 @@ The current project is a simple pong game built with SFML.
 
 __ __
 ### **[✅] To-Do:**
-*To-do items will appear here!*
+[ ] Game loss
+[ ] Levels of difficulty
+[ ] Score
+[ ] Main Menu
+[ ] Random for paddles and balls
