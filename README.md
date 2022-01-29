@@ -11,4 +11,20 @@ The current project is a simple pong game built with SFML.
 
 __ __
 ### **[✅] To-Do:**
-*To-do items will appear here!*
+- [ ] Win and Lose States
+	- [ ] Win at 5
+	- [ ] Lose resets game, keeps score
+- [ ] Levels of difficulty
+	- [ ] Increase speed gradually every round
+	- [ ] Increase paddle randomiation
+	- [ ] Enemy accuracy
+- [ ] Score
+- [ ] Main Menu
+	- [ ] Window sie
+	- [ ] /# of balls
+	- [ ] start game
+	- [ ] difficulty settings
+	- [ ] sie of paddle
+- [ ] Random for paddles and balls
+- [ ] AI Enemy
+	- [ ] follow ball with error
